@@ -1,9 +1,6 @@
-version: '3.8'
-
 services:
   convertx:
     image: ghcr.io/aaacoder-ds/convertx:latest
-    container_name: convertx
     restart: unless-stopped
     ports:
       - "3084:3000"
@@ -25,7 +22,3 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-
-volumes:
-  convertx_data:
-    driver: local 
