@@ -37,8 +37,31 @@ export const BaseHtml = ({
             ConvertX{" "}
           </a>
           <span safe>v{version || ""}</span>
+          <span class="mx-2">•</span>
+          <span>Discover more utility tools at </span>
+          <a
+            href="https://aaacoder.xyz/"
+            class={`
+              text-neutral-400
+              hover:text-accent-500
+            `}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            aaacoder.xyz
+          </a>
+          <div class="mt-2 text-xs text-neutral-600">
+            <span>File conversion, document processing, image optimization, format transformation, online converter, batch processing, multimedia tools, document converter, image converter, video converter, audio converter, PDF tools, office document conversion, web-based conversion, free online tools, file format converter, document transformation, media conversion, batch file processing, online utility tools</span>
+          </div>
         </div>
       </footer>
+      <script defer data-domain="convert.aaacoder.xyz" src="https://plausible.aaacoder.xyz/js/script.js"></script>
+      <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+      <script type="text/javascript">
+        aclib.runAutoTag({{
+          zoneId: 'ezuikiw1pd',
+        }});
+      </script>
     </body>
   </html>
 );

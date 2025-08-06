@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  convertx:
+    image: ghcr.io/aaacoder-ds/convertx:latest
+    container_name: convertx
+    restart: unless-stopped
+    ports:
+      - "3084:3000"
+    environment:
+      - NODE_ENV=production
+      - WEBROOT=${WEBROOT:-}
+      - ALLOW_UNAUTHENTICATED=${ALLOW_UNAUTHENTICATED:-true}
+      - ACCOUNT_REGISTRATION=${ACCOUNT_REGISTRATION:-false}
+      - HIDE_HISTORY=${HIDE_HISTORY:-false}
+      - HTTP_ALLOWED=${HTTP_ALLOWED:-false}
+      - UNAUTHENTICATED_USER_SHARING=${UNAUTHENTICATED_USER_SHARING:-false}
+      - AUTO_DELETE_EVERY_N_HOURS=${AUTO_DELETE_EVERY_N_HOURS:-6}
+      - JWT_SECRET=${JWT_SECRET:-your-jwt-secret-here}
+    volumes:
+      - /mnt/sdb/convertx:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  convertx_data:
+    driver: local 
