@@ -57,11 +57,13 @@ export const BaseHtml = ({
       </footer>
       <script defer data-domain="convert.aaacoder.xyz" src="https://plausible.aaacoder.xyz/js/script.js"></script>
       <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
-      <script type="text/javascript">
-        aclib.runAutoTag({{
-          zoneId: 'ezuikiw1pd',
-        }});
-      </script>
+      <script type="text/javascript" dangerouslySetInnerHTML={{
+        __html: `
+          aclib.runAutoTag({
+            zoneId: 'ezuikiw1pd',
+          });
+        `
+      }} />
     </body>
   </html>
 );
