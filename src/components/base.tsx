@@ -59,9 +59,18 @@ export const BaseHtml = ({
       <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
       <script type="text/javascript" dangerouslySetInnerHTML={{
         __html: `
-          aclib.runAutoTag({
-            zoneId: 'ezuikiw1pd',
-          });
+          (function() {
+            function initAclib() {
+              if (typeof aclib !== 'undefined' && aclib.runAutoTag) {
+                aclib.runAutoTag({
+                  zoneId: 'ezuikiw1pd',
+                });
+              } else {
+                setTimeout(initAclib, 100);
+              }
+            }
+            initAclib();
+          })();
         `
       }} />
     </body>
