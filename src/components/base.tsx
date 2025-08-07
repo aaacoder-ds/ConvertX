@@ -56,23 +56,39 @@ export const BaseHtml = ({
         </div>
       </footer>
       <script defer data-domain="convert.aaacoder.xyz" src="https://plausible.aaacoder.xyz/js/script.js"></script>
-      <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
-      <script type="text/javascript" dangerouslySetInnerHTML={{
-        __html: `
+      <script id="aclib" type="text/javascript" src="https://acscdn.com/script/aclib.js"></script>
+      <script type="text/javascript">
+        {`
           (function() {
+            var maxAttempts = 50;
+            var attempts = 0;
+            
             function initAclib() {
+              attempts++;
+              console.log('Attempting to initialize aclib, attempt:', attempts);
+              
               if (typeof aclib !== 'undefined' && aclib.runAutoTag) {
-                aclib.runAutoTag({
-                  zoneId: 'ezuikiw1pd',
-                });
-              } else {
+                console.log('aclib found, running autoTag');
+                try {
+                  aclib.runAutoTag({
+                    zoneId: 'ezuikiw1pd',
+                  });
+                  console.log('aclib.runAutoTag called successfully');
+                } catch (error) {
+                  console.error('Error calling aclib.runAutoTag:', error);
+                }
+              } else if (attempts < maxAttempts) {
+                console.log('aclib not ready yet, retrying in 100ms');
                 setTimeout(initAclib, 100);
+              } else {
+                console.error('Failed to initialize aclib after', maxAttempts, 'attempts');
               }
             }
+            
             initAclib();
           })();
-        `
-      }} />
+        `}
+      </script>
     </body>
   </html>
 );
