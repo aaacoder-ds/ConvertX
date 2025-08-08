@@ -1,6 +1,6 @@
 import { rmSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
-import { html } from "@elysiajs/html";
+import { html, Html } from "@elysiajs/html";
 import { staticPlugin } from "@elysiajs/static";
 import { Elysia } from "elysia";
 import "./helpers/printVersions";
@@ -17,6 +17,7 @@ import { results } from "./pages/results";
 import { root } from "./pages/root";
 import { upload } from "./pages/upload";
 import { user } from "./pages/user";
+import { NotFound } from "./pages/notFound";
 
 mkdir("./data", { recursive: true }).catch(console.error);
 
@@ -30,6 +31,15 @@ const app = new Elysia({
   prefix: WEBROOT,
 })
   .use(html())
+  // Ensure robots.txt and sitemap.xml are always accessible
+  .get("/robots.txt", ({ set }) => {
+    set.headers["content-type"] = "text/plain";
+    return Bun.file("public/robots.txt");
+  })
+  .get("/sitemap.xml", ({ set }) => {
+    set.headers["content-type"] = "application/xml";
+    return Bun.file("public/sitemap.xml");
+  })
   .use(
     staticPlugin({
       assets: "public",
@@ -46,6 +56,11 @@ const app = new Elysia({
   .use(deleteFile)
   .use(listConverters)
   .use(chooseConverter)
+  // Fallback 404 route (must be last)
+  .all("*", ({ set }) => {
+    set.status = 404;
+    return <NotFound />;
+  })
   .onError(({ error }) => {
     console.error(error);
   });
